@@ -9,23 +9,24 @@ Vagrant.configure("2") do |config|
 
   config.vm.define :producer do |producer|
     producer.vm.box = "producer"
-    producer.vm.provision :shell, :inline => "echo Hello"
+    producer.vm.provision :shell, :inline => "apt-get -y install libredis-perl"
     producer.vm.box_url = "http://files.vagrantup.com/precise64.box"
-    producer.vm.network :private_network, ip: "192.168.2.1"
+    producer.vm.network :private_network, ip: "192.168.3.1"
   end
 
   config.vm.define :redis do |redis|
     redis.vm.box = "redis"
-    redis.vm.provision :shell, :inline => "echo Hello"
+    #redis.vm.provision :shell, :inline => "apt-get -y install redis-server && echo 'bind 192.168.3.2' >> /etc/redis/redis.conf && /etc/init.d/redis-server restart"
+    redis.vm.provision :shell, :path => "configure-redis-server.sh"
     redis.vm.box_url = "http://files.vagrantup.com/precise64.box"
-    redis.vm.network :private_network, ip: "192.168.2.2"
+    redis.vm.network :private_network, ip: "192.168.3.2"
   end
 
   config.vm.define :consumer do |consumer|
     consumer.vm.box = "consumer"
-    consumer.vm.provision :shell, :inline => "echo Hello"
+    consumer.vm.provision :shell, :inline => "apt-get -y install libredis-perl"
     consumer.vm.box_url = "http://files.vagrantup.com/precise64.box"
-    consumer.vm.network :private_network, ip: "192.168.2.3"
+    consumer.vm.network :private_network, ip: "192.168.3.3"
   end
 
   # Create a forwarded port mapping which allows access to a specific port
