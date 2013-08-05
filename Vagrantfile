@@ -18,7 +18,7 @@ Vagrant.configure("2") do |config|
   config.vm.define :producer do |producer|
     producer.vm.box = "producer"
     producer.vm.synced_folder "conf.d", "/svr/conf.d"
-    producer.vm.provision :shell, :inline => "apt-get -y install libredis-perl"
+    producer.vm.provision :shell, :path => "configure-client.sh"
     producer.vm.box_url = "http://files.vagrantup.com/precise64.box"
     producer.vm.network :private_network, ip: "192.168.3.1"
     producer.ssh.forward_agent = true
