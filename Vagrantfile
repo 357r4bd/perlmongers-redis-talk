@@ -6,28 +6,32 @@ Vagrant.configure("2") do |config|
   # options are documented and commented below. For a complete reference,
   # please see the online documentation at vagrantup.com.
 
-
-  config.vm.define :producer do |producer|
-    producer.vm.box = "producer"
-    producer.vm.provision :shell, :inline => "apt-get -y install libredis-perl"
-    producer.vm.box_url = "http://files.vagrantup.com/precise64.box"
-    producer.vm.network :private_network, ip: "192.168.3.1"
-  end
-
   config.vm.define :redis do |redis|
     redis.vm.box = "redis"
-    #redis.vm.provision :shell, :inline => "apt-get -y install redis-server && echo 'bind 192.168.3.2' >> /etc/redis/redis.conf && /etc/init.d/redis-server restart"
+    redis.vm.synced_folder "conf.d", "/svr/conf.d"
     redis.vm.provision :shell, :path => "configure-redis-server.sh"
     redis.vm.box_url = "http://files.vagrantup.com/precise64.box"
     redis.vm.network :private_network, ip: "192.168.3.2"
+    redis.ssh.forward_agent = true
   end
 
-  config.vm.define :consumer do |consumer|
-    consumer.vm.box = "consumer"
-    consumer.vm.provision :shell, :inline => "apt-get -y install libredis-perl"
-    consumer.vm.box_url = "http://files.vagrantup.com/precise64.box"
-    consumer.vm.network :private_network, ip: "192.168.3.3"
+  config.vm.define :producer do |producer|
+    producer.vm.box = "producer"
+    producer.vm.synced_folder "conf.d", "/svr/conf.d"
+    producer.vm.provision :shell, :inline => "apt-get -y install libredis-perl"
+    producer.vm.box_url = "http://files.vagrantup.com/precise64.box"
+    producer.vm.network :private_network, ip: "192.168.3.1"
+    producer.ssh.forward_agent = true
   end
+
+#  config.vm.define :consumer do |consumer|
+#    consumer.vm.box = "consumer"
+#    consumer.vm.synced_folder "conf.d", "/svr/conf.d"
+#    consumer.vm.provision :shell, :inline => "apt-get -y install libredis-perl"
+#    consumer.vm.box_url = "http://files.vagrantup.com/precise64.box"
+#    consumer.vm.network :private_network, ip: "192.168.3.3"
+#    consumer.ssh.forward_agent = true
+#  end
 
   # Create a forwarded port mapping which allows access to a specific port
   # within the machine from a port on the host machine. In the example below,
