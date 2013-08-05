@@ -36,14 +36,10 @@ sub bget_task {
     return $payload;
 }
 
-package main;
-
-my $queue = Queue->new( { name => q{fartbox} } );
-
-for my $i ( 1 .. 10 ) {
-    $queue->submit_task($i);
-    my $task = $queue->bget_task(0);
-    print qq{$task\n};
+sub get_task {
+    my $self = shift;
+    my ( $list, $payload ) = $self->{redis}->lpop( $self->{name} );
+    return $payload;
 }
 
 1;
