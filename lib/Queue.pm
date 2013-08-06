@@ -17,8 +17,7 @@ sub new {
 
     my $ok = eval {
         $self->{redis} = Redis->new( server => q{192.168.3.2:6379} )
-          or throw X::CantConnect;
-    };
+    } or throw X::CantConnect;
 
     return $self;
 }
