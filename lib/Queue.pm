@@ -2,38 +2,57 @@ package Queue;
 
 use strict;
 use warnings;
-use Data::Dumper ();
+use Digest::SHA qw/sha512_hex/;
 
 use parent q{Redis};
-use Exception::Class ( 'X::Fatal', 'X::CantConnect' => { isa => 'X::Fatal' }, );
+use Exception::Class (
+    'X::Fatal',
+    'X::CantConnect'      => { isa => 'X::Fatal' },
+    'X::QueueNameMissing' => { isa => 'X::Fatal' },
+);
+
+X::Fatal->Trace(1);
 
 sub new {
     my $pkg    = shift;
     my $params = shift;
 
-    my $self = { name => $params->{name} || q{myqueue}, };
+    my $self =
+      {      name => $params->{name}
+          || throw X::QueueNameMissing(q{'name' parameter required}), };
 
     bless $self, $pkg;
 
-    my $ok = eval {
-        $self->{redis} = Redis->new( server => q{192.168.3.2:6379} )
-    } or throw X::CantConnect;
+    $self->_connect;
 
     return $self;
 }
 
+sub _connect {
+    my $self = shift;
+    my $ok =
+      eval { $self->{redis} = Redis->new( server => q{192.168.3.2:6379} ) }
+      or throw X::CantConnect;
+
+      # register GUID for this client using Redis' atomic incr
+      my $pkg = ref $self;
+      $self->{id} = sha512_hex($pkg, rand, $self->{redis}->incr($pkg));
+
+    return;
+}
+
 # serialization hook
 sub _encode {
-  my $self = shift;
-  my $payload = shift;
-  return $payload;
+    my $self    = shift;
+    my $payload = shift;
+    return $payload;
 }
 
 # deserialization hook
 sub _decode {
-  my $self = shift;
-  my $payload = shift;
-  return $payload;
+    my $self    = shift;
+    my $payload = shift;
+    return $payload;
 }
 
 sub submit_task {
@@ -46,13 +65,13 @@ sub bget_task {
     my $self = shift;
     my $timeout = shift // 1;
     my ( $list, $payload ) = $self->{redis}->blpop( $self->{name}, $timeout );
-    return $self->_decode( $payload );
+    return $self->_decode($payload);
 }
 
 sub get_task {
     my $self = shift;
     my ( $list, $payload ) = $self->{redis}->lpop( $self->{name} );
-    return $self->_decode( $payload );
+    return $self->_decode($payload);
 }
 
 1;
