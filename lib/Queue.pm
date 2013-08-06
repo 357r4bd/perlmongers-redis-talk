@@ -22,23 +22,37 @@ sub new {
     return $self;
 }
 
+# serialization hook
+sub _encode {
+  my $self = shift;
+  my $payload = shift;
+  return $payload;
+}
+
+# deserialization hook
+sub _decode {
+  my $self = shift;
+  my $payload = shift;
+  return $payload;
+}
+
 sub submit_task {
     my $self    = shift;
     my $payload = shift;
-    return $self->{redis}->rpush( $self->{name}, $payload );
+    return $self->{redis}->rpush( $self->{name}, $self->_encode($payload) );
 }
 
 sub bget_task {
     my $self = shift;
     my $timeout = shift // 1;
     my ( $list, $payload ) = $self->{redis}->blpop( $self->{name}, $timeout );
-    return $payload;
+    return $self->_decode( $payload );
 }
 
 sub get_task {
     my $self = shift;
     my ( $list, $payload ) = $self->{redis}->lpop( $self->{name} );
-    return $payload;
+    return $self->_decode( $payload );
 }
 
 1;
