@@ -1,7 +1,8 @@
 use strict;
 use warnings;
 
-use Task;
+use Task::Ping;
+use Task::Pong;
 use Queue::WithTasks;
 
 $|++;
@@ -24,13 +25,13 @@ if ($pinger) {
 
 for ( my $i = 1; $i <= 1000; $i++ ) {
     if ($pinger) {
-        my $ping_task = Task->new( { msg => q{ping}, i => $i } );
-        print qq{Sending Ping $i ...\n};
+        my $ping_task = Task::Ping->new( { msg => q{ping}, i => $i } );
+        print qq{Sending $ping_task->{type} $i ...\n};
         $send_q->submit_task($ping_task);
         my $pong = $receive_q->bget_task(0);
         if ($pong) {
           my $json = $pong->_encode_task;
-          print qq{Got Pong $i\n};
+          print qq{Got $pong->{type} $i\n};
         }
         else {
           print qq{Timed out waiting for Pong $i\n};   
@@ -40,8 +41,8 @@ for ( my $i = 1; $i <= 1000; $i++ ) {
         my $ping = $receive_q->bget_task(1);
         if ($ping) {
           my $json = $ping->_encode_task;
-          print qq{Got Ping $i ... sending Pong $i\n};
-          my $pong_task = Task->new( { msg => q{pong}, i => $i } );
+          my $pong_task = Task::Pong->new( { msg => q{pong}, i => $i } );
+          print qq{Got $ping->{type} $i ... sending $pong_task->{type} $i\n};
           $send_q->submit_task($pong_task);
         }
         else {
