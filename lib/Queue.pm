@@ -74,4 +74,9 @@ sub get_task {
     return $self->_decode($payload);
 }
 
+sub delete_queue {
+    my $self = shift;
+    return $self->{redis}->del($self->{name});
+}
+
 1;
