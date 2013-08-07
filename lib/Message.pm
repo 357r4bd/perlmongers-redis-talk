@@ -29,8 +29,7 @@ sub new {
     return $self;
 }
 
-#
-sub _encode_task {
+sub _encode_message {
     my $self = shift;
 
     # use important hash keys
@@ -44,6 +43,11 @@ sub _encode_task {
             from => $self->{from} // throw X::MissingHeader(q{'from' field not set}),
         }
     );
+}
+
+sub _decode_message {
+  my $self = shift;
+  return $self->_decode_task(@_);
 }
 
 1;

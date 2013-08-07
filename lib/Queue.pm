@@ -58,25 +58,25 @@ sub _decode {
 sub submit_task {
     my $self    = shift;
     my $payload = shift;
-    return $self->{redis}->rpush( $self->{name}, $self->_encode($payload) );
+    return $self->{redis}->lpush( $self->{name}, $self->_encode($payload) );
 }
 
 sub bget_task {
     my $self = shift;
     my $timeout = shift // 1;
-    my ( $list, $payload ) = $self->{redis}->blpop( $self->{name}, $timeout );
+    my $payload = $self->{redis}->brpoplpush( $self->{name}, q{tmplist}, $timeout );
     return $self->_decode($payload);
 }
 
 sub get_task {
     my $self = shift;
-    my ( $list, $payload ) = $self->{redis}->lpop( $self->{name} );
+    my $payload = $self->{redis}->rpoplpush( $self->{name}, q{tmplist} );
     return $self->_decode($payload);
 }
 
 sub delete_queue {
     my $self = shift;
-    return $self->{redis}->del($self->{name});
+    return $self->{redis}->del($self->{name}, q{tmplist});
 }
 
 1;

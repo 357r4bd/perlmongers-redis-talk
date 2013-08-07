@@ -1,0 +1,8 @@
+./pingpong1 
+
+Basic ping pong using a single Queue::WithTasks and Tasks. To run,
+
+	cd ./pingpong1
+	./run-pingpong.sh
+
+

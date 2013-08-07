@@ -10,21 +10,21 @@ my $message = new_ok q{Message} => [ { msg => q{hello, world} } ], q{create new 
 
 my $encoded = q{};
 
-throws_ok {my $encoded = $message->_encode_task()} q{X::MissingHeader}, q{catch X::MissingHeader 'to' on encode};
+throws_ok {my $encoded = $message->_encode_message()} q{X::MissingHeader}, q{catch X::MissingHeader 'to' on encode};
 
 $message->{to} = 'f00';
 
-throws_ok {my $encoded = $message->_encode_task()} q{X::MissingHeader}, q{catch X::MissingHeader 'from' on encode};
+throws_ok {my $encoded = $message->_encode_message()} q{X::MissingHeader}, q{catch X::MissingHeader 'from' on encode};
 
 $message->{from} = 'bar';
 
-lives_ok {$encoded = $message->_encode_task()} q{message encoding doesn't throw exception}; 
+lives_ok {$encoded = $message->_encode_message()} q{message encoding doesn't throw exception}; 
 
-ok my $new_message = Message->_decode_task($encoded), q{create new Message from JSON encoding of a task}; 
+ok my $new_message = Message->_decode_message($encoded), q{create new Message from JSON encoding of a task}; 
 
 is_deeply $message, $new_message, q{task and new_message match deeply};
 
-ok my $new_encoded = $new_message->_encode_task(), q{encode newly decoded task};
+ok my $new_encoded = $new_message->_encode_message(), q{encode newly decoded task};
 
 is $encoded, $new_encoded, q{encoded, decoded, encoded match};
 
