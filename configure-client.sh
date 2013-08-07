@@ -2,6 +2,7 @@
 
 apt-get update
 apt-get -y install libexception-class-perl
+apt-get -y install libtest-exception-perl
 apt-get -y install libclass-accessor-perl
 apt-get -y install libjson-xs-perl
 apt-get -y install libredis-perl
