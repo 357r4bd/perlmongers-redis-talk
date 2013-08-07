@@ -2,6 +2,7 @@ package Queue::PrivateWithMessages;
 
 use strict;
 use warnings;
+use Digest::SHA qw/sha512_hex/;
 
 use parent q{Queue};
 use Message ();

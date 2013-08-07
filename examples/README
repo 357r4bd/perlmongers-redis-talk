@@ -1,8 +1,8 @@
-./pingpong1 
+./pingpong
 
-Basic ping pong using a single Queue::WithTasks and Tasks. To run,
+Basic Ping/Pong using 2 clients and two queues.
 
-	cd ./pingpong1
+	cd ./pingpong
 	./run-pingpong.sh
 
 
