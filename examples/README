@@ -10,11 +10,11 @@ Basic Ping/Pong using 2 clients and two queues. Synchronous.
 Producer fires task and forgets.
 
 	cd ./async-consumer-producer
-        ./run-async.sh <num_producers> <num_consumers>
+        ./run-asynchronous.sh <num_producers> <num_consumers>
 
 ./sync-consumer-producer
 
 Producer fires a task and waits for an ACK from the consumer. Uses concept of private queues. Synchronous.
 
 	cd ./sync-consumer-producer
-        ./run-sync.sh <num_producers> <num_consumers>
+        ./run-synchronous.sh <num_producers> <num_consumers>

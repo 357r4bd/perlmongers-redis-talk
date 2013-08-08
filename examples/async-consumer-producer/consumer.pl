@@ -5,9 +5,16 @@ use warnings;
 
 use Queue::WithTasks;
 
+# crate client for WorkQ, wait for work
 my $qclient = Queue::WithTasks->new( { name => q{workq} });
+
+# wait for work, breaks while condition on time out
 while (my $task = $qclient->bget_task(1)) {
-  print $task->_encode_task(), qq{\n}; 
+  # do something with task  
+  # shorten $id just for reporting
+  my $id = substr $task->{id}, 0, 10;
+  print qq{[Consumer $$] Processed $task->{type} from Producer $task->{payload}->{producer_pid} with id $id\n};
 }
 
-print qq{Consumer timed out\n};
+# final message
+print qq{[Consumer $$] Consumer tired of waiting for more work\n};

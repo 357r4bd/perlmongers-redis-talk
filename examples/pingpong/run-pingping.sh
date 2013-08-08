@@ -1,5 +1,7 @@
 #!/bin/sh
 
-(perl ./pingpong.pl ping)&
-(perl ./pingpong.pl pong)&
+ROUNDS=${1:-1000}
+
+(perl ./pingpong.pl ping $ROUNDS)&
+(perl ./pingpong.pl pong $ROUNDS)&
 wait
