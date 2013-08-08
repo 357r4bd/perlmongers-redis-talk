@@ -9,7 +9,7 @@ Vagrant.configure("2") do |config|
   config.vm.define :redis do |redis|
     redis.vm.box = "redis"
     redis.vm.synced_folder "conf.d", "/svr/conf.d"
-    redis.vm.provision :shell, :path => "configure-redis-server.sh"
+    redis.vm.provision :shell, :path => "provisioning/configure-redis-server.sh"
     redis.vm.box_url = "http://files.vagrantup.com/precise64.box"
     redis.vm.network :private_network, ip: "192.168.3.2"
     redis.ssh.forward_agent = true
@@ -18,7 +18,7 @@ Vagrant.configure("2") do |config|
   config.vm.define :producer do |producer|
     producer.vm.box = "producer"
     producer.vm.synced_folder "conf.d", "/svr/conf.d"
-    producer.vm.provision :shell, :path => "configure-client.sh"
+    producer.vm.provision :shell, :path => "provisioning/configure-client.sh"
     producer.vm.box_url = "http://files.vagrantup.com/precise64.box"
     producer.vm.network :private_network, ip: "192.168.3.1"
     producer.ssh.forward_agent = true
