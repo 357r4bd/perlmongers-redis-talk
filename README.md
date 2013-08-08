@@ -7,16 +7,24 @@ My git repo containing example codes and files for talk 8/8/13.
 
 2. git clone this repo from github
 
-  https://github.com/estrabd/houston-pm-redis-talk
+	$ git clone https://github.com/estrabd/houston-pm-redis-talk
+
+	(or download from https://github.com/estrabd/houston-pm-redis-talk/archive/master.zip)
 
 3. set up redis VM and client VM
 
 	$ cd houston-pm-redis-talk
+
 	$ vagrant up
 
-4. vagrant ssh producer # main client machine
+4. ssh into "producer" VM:
 
-5. cd /vagrant
+	$ vagrant ssh producer # main client machine
 
-	make test
-	make examples
+5. try it out!
+
+	$ cd /vagrant
+
+	$ make test
+
+	$ make examples
