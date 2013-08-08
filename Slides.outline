@@ -1,0 +1,39 @@
+What is Redis
+
+Perl Client, Redis.pm
+
+Why Redis as a Queue
+
+Why Not MySQL as a Queue
+
+Why Not Memcached as a Queue
+
+Simple Perl Queue Client
+
+Some Queue Patterns
+
+Fire and Forget (Asynchronous)
+
+Ping Pong (Synchronous)
+
+M Producers x N Consumers (Asynchronous vs Synchronous)
+
+Failover
+
+Scaling
+
+Security (Encryption, Tunnels)
+
+Demo Intro (Vagrant)
+
+Ping Pong Demo
+
+M Producers x N Consumers Demo
+
+High Availability Redis (Clustering)
+
+Tasks vs Messages
+
+Redis as a Messaging Backend
+
+"Transactional" Protocols on Top of Redis
