@@ -12,3 +12,4 @@ apt-get -y install vim
 apt-get -y install git
 
 sudo -u vagrant echo 'export PERL5LIB=/vagrant/lib' >> /home/vagrant/.profile
+sudo -u vagrant cp /vagrant/conf.d/.tmux.conf /home/vagrant/.tmux.conf
