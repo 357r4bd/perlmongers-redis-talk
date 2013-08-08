@@ -1,0 +1,15 @@
+1. install the latest version of VirtualBox and Vagrant
+
+2. git clone this repo from github
+
+3. set up redis VM and client VM
+
+	$ vagrant up
+
+4. vagrant ssh producer # main client machine
+
+5. cd /vagrant
+
+	make test
+	make examples
+
