@@ -1,8 +1,20 @@
 ./pingpong
 
-Basic Ping/Pong using 2 clients and two queues.
+Basic Ping/Pong using 2 clients and two queues. Synchronous.
 
 	cd ./pingpong
-	./run-pingpong.sh
+	./run-pingpong.sh <num_rounds>
 
+./async-consumer-producer
 
+Producer fires task and forgets.
+
+	cd ./async-consumer-producer
+        ./run-async.sh <num_producers> <num_consumers>
+
+./sync-consumer-producer
+
+Producer fires a task and waits for an ACK from the consumer. Uses concept of private queues. Synchronous.
+
+	cd ./sync-consumer-producer
+        ./run-sync.sh <num_producers> <num_consumers>
