@@ -3,8 +3,10 @@ houston-pm-redis-talk
 
 My git repo containing example codes and files for talk 8/8/13.
 
-0. talk via Google Docs - 
+0.a  talk via Google Docs - 
 	https://docs.google.com/presentation/d/1bfEOFUbnl8Ea9eObyIITXjqdwcwPvx-S7uNPklYu-ug/edit?usp=sharing
+	
+0.b  screencast of actual talk, https://vimeo.com/72078698
 
 1. install the latest version of VirtualBox and Vagrant
 
